@@ -1,8 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
-import 'package:rekap_fin/core/theme/app_colors.dart';
-import 'package:rekap_fin/core/theme/app_typography.dart';
+import 'package:rekap_fin/core/design_system/app_bottom_nav_bar.dart';
+import 'package:rekap_fin/core/design_system/rekapfin_background.dart';
+import 'package:rekap_fin/core/design_system/tanya_ai_fab.dart';
+import 'package:rekap_fin/core/theme/app_spacing.dart';
 
+/// Kerangka navigasi utama (Shell Route) 5 tab RekapFin sesuai docs/08 & docs/03
 class MainShellScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
 
@@ -11,7 +14,7 @@ class MainShellScreen extends StatelessWidget {
     required this.navigationShell,
   });
 
-  void _onTap(BuildContext context, int index) {
+  void _onTabSelected(int index) {
     navigationShell.goBranch(
       index,
       initialLocation: index == navigationShell.currentIndex,
@@ -21,47 +24,36 @@ class MainShellScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: navigationShell,
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () => context.push('/chat'),
-        backgroundColor: AppColors.accentAction,
-        foregroundColor: AppColors.textOnAccent,
-        icon: const Icon(Icons.auto_awesome, size: 20),
-        label: Text(
-          'Tanya AI',
-          style: AppTypography.micro.copyWith(color: AppColors.textOnAccent),
+      body: RekapFinBackground(
+        child: Stack(
+          alignment: Alignment.bottomCenter,
+          children: [
+            // Konten tab yang sedang aktif
+            Positioned.fill(
+              child: navigationShell,
+            ),
+
+            // Tombol Tanya AI melayang tetap (Fixed) di koordinat (x=240, y=684)
+            // Jarak dari batas bawah: 844 - 684 - 52 = 108 px
+            Positioned(
+              right: 20,
+              bottom: 108,
+              child: TanyaAiFab(
+                onTap: () => context.push('/chat'),
+              ),
+            ),
+
+            // Bilah Navigasi Bawah tetap (Fixed 350 x 68) di y=752
+            // Jarak dari batas bawah: 844 - 752 - 68 = 24 px (safe-bottom)
+            Positioned(
+              bottom: AppSpacing.safeBottom,
+              child: AppBottomNavBar(
+                currentIndex: navigationShell.currentIndex,
+                onTabSelected: _onTabSelected,
+              ),
+            ),
+          ],
         ),
-      ),
-      bottomNavigationBar: NavigationBar(
-        selectedIndex: navigationShell.currentIndex,
-        onDestinationSelected: (index) => _onTap(context, index),
-        destinations: const [
-          NavigationDestination(
-            icon: Icon(Icons.home_outlined),
-            selectedIcon: Icon(Icons.home),
-            label: 'Beranda',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.receipt_long_outlined),
-            selectedIcon: Icon(Icons.receipt_long),
-            label: 'Transaksi',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.pie_chart_outline),
-            selectedIcon: Icon(Icons.pie_chart),
-            label: 'Anggaran',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.bar_chart_outlined),
-            selectedIcon: Icon(Icons.bar_chart),
-            label: 'Analitik',
-          ),
-          NavigationDestination(
-            icon: Icon(Icons.person_outline),
-            selectedIcon: Icon(Icons.person),
-            label: 'Profil',
-          ),
-        ],
       ),
     );
   }
