@@ -2,9 +2,9 @@ name: CI
 
 on:
   pull_request:
-    branches: [main]
+    branches: [main, develop]
   push:
-    branches: [main]
+    branches: [main, develop]
 
 jobs:
   flutter-check:
@@ -56,3 +56,4 @@ jobs:
 
       - name: Run pgTAP database tests
         run: supabase test db
+
