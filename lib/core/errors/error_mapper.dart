@@ -84,4 +84,3 @@ class ErrorMapper {
     return ServerFailure(error.toString());
   }
 }
-
