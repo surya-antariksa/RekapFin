@@ -18,6 +18,8 @@ build/
 .packages
 .pub/
 .pub-cache/
+.flutter-plugins
+.flutter-plugins-dependencies
 
 # Supabase local temp
 supabase/.temp
