@@ -69,4 +69,3 @@ class AppTypography {
     color: AppColors.textMuted,
   );
 }
-
