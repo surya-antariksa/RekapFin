@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:go_router/go_router.dart';
+import 'package:rekap_fin/core/theme/app_colors.dart';
+import 'package:rekap_fin/core/theme/app_typography.dart';
 
 class MainShellScreen extends StatelessWidget {
   final StatefulNavigationShell navigationShell;
@@ -22,12 +24,12 @@ class MainShellScreen extends StatelessWidget {
       body: navigationShell,
       floatingActionButton: FloatingActionButton.extended(
         onPressed: () => context.push('/chat'),
-        backgroundColor: const Color(0xFF047857),
-        foregroundColor: Colors.white,
+        backgroundColor: AppColors.accentAction,
+        foregroundColor: AppColors.textOnAccent,
         icon: const Icon(Icons.auto_awesome, size: 20),
-        label: const Text(
+        label: Text(
           'Tanya AI',
-          style: TextStyle(fontSize: 11, fontWeight: FontWeight.w600),
+          style: AppTypography.micro.copyWith(color: AppColors.textOnAccent),
         ),
       ),
       bottomNavigationBar: NavigationBar(
