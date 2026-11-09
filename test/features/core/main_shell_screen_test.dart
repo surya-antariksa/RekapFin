@@ -31,4 +31,3 @@ void main() {
     expect(find.byType(ChatScreen), findsOneWidget);
   });
 }
-

@@ -27,4 +27,3 @@ class ClientRequestId {
     return regex.hasMatch(uuid);
   }
 }
-

@@ -66,4 +66,3 @@ class AppVersionChecker {
     return VersionStatus.supported;
   }
 }
-
