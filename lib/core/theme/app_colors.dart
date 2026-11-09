@@ -60,3 +60,4 @@ class AppColors {
   // Avatar
   static const Color avatarEnd = Color(0xFF10B981);
 }
+
