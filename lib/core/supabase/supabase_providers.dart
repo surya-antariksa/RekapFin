@@ -50,3 +50,4 @@ final appConfigProvider = FutureProvider<AppConfig?>((ref) async {
 
   return null;
 });
+
