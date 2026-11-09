@@ -111,3 +111,40 @@ supabase secrets set --project-ref <project-id> GEMINI_API_KEY="kunci_rahasia_an
    - Nama: `GEMINI_API_KEY` (dan/atau `CLAUDE_API_KEY`)
    - Nilai: `<API_KEY_RAHASIA>`
 4. Simpan. Kunci ini hanya akan dapat diakses oleh runtime Deno pada Edge Function di server.
+
+
+---
+
+## 5. Prosedur Cadangan Manual dan Pengecekan PITR (X-03, T-MIG-05)
+
+Sesuai rencana pengujian T-MIG-05 dan keputusan OI-49, pemilik produk wajib melakukan cadangan berkala dan pengecekan Point-in-Time Recovery (PITR) untuk mencegah kehilangan data keuangan pengguna.
+
+### 5.1 Ekspor Cadangan Manual via Supabase CLI
+Jalankan dump skema dan data dari proyek produksi secara berkala:
+```bash
+# 1. Dump skema basis data
+supabase db dump --project-ref <prod-project-ref> -f backup_schema_$(date +%Y%m%d).sql
+
+# 2. Dump data pengguna (data-only)
+supabase db dump --project-ref <prod-project-ref> --data-only -f backup_data_$(date +%Y%m%d).sql
+```
+- Enkripsi file backup (`gpg -c backup_data_*.sql`) dan simpan di penyimpanan offline terisolasi.
+- **JANGAN PERNAH** meng-commit file `.sql` hasil dump ke repositori Git.
+
+### 5.2 Pengecekan Status PITR di Supabase Dashboard
+1. Buka dashboard proyek Supabase (khususnya `rekapfin-prod`).
+2. Masuk ke **Project Settings -> Database -> Backups**.
+3. Pastikan **Point in Time Recovery (PITR)** berstatus **Enabled** (tersedia pada tier Pro).
+4. Catat retensi PITR (default 7 hari).
+
+### 5.3 Prosedur Pengujian Pemulihan ke Staging (T-MIG-05)
+Untuk memenuhi skenario uji T-MIG-05 (verifikasi pemulihan cadangan):
+1. Pulihkan cadangan manual produksi ke proyek `rekapfin-staging`:
+   ```bash
+   # Reset staging dan terapkan migrasi
+   supabase db reset --linked --project-ref <staging-project-ref>
+
+   # Pulihkan data ke staging
+   psql -h db.<staging-project-ref>.supabase.co -U postgres -d postgres -f backup_data_terenkripsi.sql
+   ```
+2. Verifikasi bahwa data kanonik dan saldo dompet cocok tanpa selisih.

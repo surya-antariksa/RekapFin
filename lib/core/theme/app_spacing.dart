@@ -11,4 +11,3 @@ class AppSpacing {
   static const double safeBottom = 24.0;
   static const double scrollBottomPadding = 160.0; // Konten scrollable
 }
-

@@ -9,6 +9,7 @@ import 'package:rekap_fin/features/analytics/presentation/analytics_screen.dart'
 import 'package:rekap_fin/features/budget/presentation/budget_edit_screen.dart';
 import 'package:rekap_fin/features/budget/presentation/budget_screen.dart';
 import 'package:rekap_fin/features/chat/presentation/chat_screen.dart';
+import 'package:rekap_fin/features/core/presentation/component_catalog_screen.dart';
 import 'package:rekap_fin/features/core/presentation/main_shell_screen.dart';
 import 'package:rekap_fin/features/core/presentation/update_required_screen.dart';
 import 'package:rekap_fin/features/debts/presentation/debt_detail_screen.dart';
@@ -197,6 +198,10 @@ final GoRouter appRouter = GoRouter(
     GoRoute(
       path: '/update-required',
       builder: (context, state) => const UpdateRequiredScreen(),
+    ),
+    GoRoute(
+      path: '/catalog',
+      builder: (context, state) => const ComponentCatalogScreen(),
     ),
   ],
 );
