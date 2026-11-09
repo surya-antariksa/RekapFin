@@ -1,0 +1,43 @@
+# RekapFin .gitignore
+
+# Keystore & Android signing
+*.jks
+*.keystore
+key.properties
+
+# Environment variables & secrets
+.env*
+*.pem
+*.key
+*.secret
+*.credentials
+
+# Flutter / Dart build & cache
+build/
+.dart_tool/
+.packages
+.pub/
+.pub-cache/
+
+# Supabase local temp
+supabase/.temp
+
+# IDE / Editor files
+.idea/
+.vscode/
+*.iml
+*.ipr
+*.iws
+.project
+.settings/
+.classpath
+*.swp
+*.swo
+*~
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Pencil design files (not in repo)
+*.pen
